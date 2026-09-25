@@ -1,6 +1,6 @@
 #define VIDEO_MEMORY (void *)0xb8000
 
-#define WHITE_ON_BLACK 0x0f
+#define WHITE_ON_BLUE 0x1F
 #define GREEN_ON_BLACK 0x02
 
 #define VGA_MEM_WIDTH 80
@@ -12,11 +12,41 @@ void clear_screen() {
 
   while (i < VGA_MEM_WIDTH * VGA_MEM_HEIGHT * 2) {
     video_memory[i] = 0;
-    video_memory[i + 1] = WHITE_ON_BLACK;
+    video_memory[i + 1] = WHITE_ON_BLUE;
     i += 2;
   }
 }
 
+void putstr(const char *str) {
+  char *video_memory = VIDEO_MEMORY;
+  unsigned int i = 0;
+  unsigned int j = 0;
+
+  while (str[j] != '\0') {
+    if (str[j] == '\n') {
+      unsigned int row = i / (VGA_MEM_WIDTH * 2);
+      i = (row + 1) * VGA_MEM_WIDTH * 2;
+      j++;
+      continue;
+    }
+
+    video_memory[i] = str[j];
+    video_memory[i + 1] = WHITE_ON_BLUE;
+    i += 2;
+    j++;
+  }
+}
+
 void kernel_main(void) {
+  clear_screen();
+
+  const char *str = "\n $ Nitro Kernel HAHAHAHHAH";
+
+  putstr(str);
+
+  while (1) {
+    __asm__("hlt");
+  }
+
   return;
 }
