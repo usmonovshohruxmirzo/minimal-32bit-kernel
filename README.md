@@ -9,7 +9,7 @@
 - [x] Linker script
 - [x] VGA text output
 - [ ] VGA cursor
-- [ ] `putchar()` / `putstr()`
+- [x] `putchar()` / `putstr()`
 - [ ] Keyboard input
 - [ ] Keyboard interrupts
 - [ ] Interrupt Descriptor Table (IDT)
