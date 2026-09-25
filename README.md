@@ -1,1 +1,1 @@
-# Minimal 32bit Kernel
+# Simple x86 Kernel
