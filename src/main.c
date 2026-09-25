@@ -17,32 +17,40 @@ void clear_screen() {
   }
 }
 
-void putstr(const char *str) {
+unsigned int cursor = 0;
+
+void putchar(char c) {
   char *video_memory = VIDEO_MEMORY;
+
+  if (c == '\n') {
+    unsigned int row = cursor / (VGA_MEM_WIDTH * 2);
+    cursor = (row + 1) * VGA_MEM_WIDTH * 2;
+    return;
+  }
+
+  video_memory[cursor] = c;
+  video_memory[cursor + 1] = WHITE_ON_BLUE;
+
+  cursor += 2;
+}
+
+void putstr(const char *str) {
   unsigned int i = 0;
-  unsigned int j = 0;
 
-  while (str[j] != '\0') {
-    if (str[j] == '\n') {
-      unsigned int row = i / (VGA_MEM_WIDTH * 2);
-      i = (row + 1) * VGA_MEM_WIDTH * 2;
-      j++;
-      continue;
-    }
-
-    video_memory[i] = str[j];
-    video_memory[i + 1] = WHITE_ON_BLUE;
-    i += 2;
-    j++;
+  while (str[i] != '\0') {
+    putchar(str[i]);
+    i++;
   }
 }
 
 void kernel_main(void) {
   clear_screen();
 
-  const char *str = "\n $ Nitro Kernel HAHAHAHHAH";
-
-  putstr(str);
+  putstr(" $ Nitro Kernel");
+  putchar('\n');
+  putstr(" $ HAHAHAHHAH");
+  putchar('\n');
+  putstr(" $ Helloooooooooo");
 
   while (1) {
     __asm__("hlt");
