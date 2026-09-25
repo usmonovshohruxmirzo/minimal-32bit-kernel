@@ -1,0 +1,1 @@
+# minimal-32bit-kernel
