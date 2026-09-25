@@ -18,7 +18,10 @@ $(BUILD_DIR)/kernel.o: src/kernel.asm | $(BUILD_DIR)
 $(BUILD_DIR)/main.o: src/main.c | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(BUILD_DIR)/kernel.bin: $(BUILD_DIR)/kernel.o $(BUILD_DIR)/main.o
+$(BUILD_DIR)/vga.o: src/vga.c | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(BUILD_DIR)/kernel.bin: $(BUILD_DIR)/kernel.o $(BUILD_DIR)/main.o $(BUILD_DIR)/vga.o
 	$(LD) -m elf_i386 -T src/link.ld $^ -o $@
 
 clean:
